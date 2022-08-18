@@ -5,6 +5,7 @@
 .yardoc
 .ruby-gemset
 .ruby-version
+.idea
 Gemfile.lock
 InstalledFiles
 _yardoc
