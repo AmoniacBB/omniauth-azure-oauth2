@@ -6,7 +6,7 @@ module OmniAuth
     class AzureOauth2 < OmniAuth::Strategies::OAuth2
       BASE_AZURE_URL = 'https://login.microsoftonline.com'
       BASE_SCOPE_URL = 'https://graph.microsoft.com/'
-      BASE_SCOPES = %w[profile email openid].freeze
+      BASE_SCOPES = %w[profile email openid offline_access].freeze
       DEFAULT_SCOPE = 'email,profile'
 
       option :name, 'azure_oauth2'
@@ -55,12 +55,10 @@ module OmniAuth
       end
 
       uid {
-        binding.pry
         raw_info['sub']
       }
 
       info do
-        binding.pry
         {
           name: raw_info['name'],
           nickname: raw_info['unique_name'],
@@ -77,9 +75,8 @@ module OmniAuth
       end
 
       def raw_info
-        binding.pry
         # it's all here in JWT http://msdn.microsoft.com/en-us/library/azure/dn195587.aspx
-        @raw_info ||= access_token.get('/me').parsed
+        @raw_info ||= ::JWT.decode(access_token.token, nil, false).first
       end
 
       private
