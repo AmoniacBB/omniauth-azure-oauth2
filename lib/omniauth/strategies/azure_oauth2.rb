@@ -12,6 +12,7 @@ module OmniAuth
       option :name, 'azure_oauth2'
 
       option :tenant_provider, nil
+      option :pkce, true
 
       # tenant_provider must return client_id, client_secret and optionally tenant_id and base_azure_url
       args [:tenant_provider]
@@ -54,10 +55,12 @@ module OmniAuth
       end
 
       uid {
+        binding.pry
         raw_info['sub']
       }
 
       info do
+        binding.pry
         {
           name: raw_info['name'],
           nickname: raw_info['unique_name'],
@@ -74,8 +77,9 @@ module OmniAuth
       end
 
       def raw_info
+        binding.pry
         # it's all here in JWT http://msdn.microsoft.com/en-us/library/azure/dn195587.aspx
-        @raw_info ||= ::JWT.decode(access_token.token, nil, false).first
+        @raw_info ||= access_token.get('/me').parsed
       end
 
       private
