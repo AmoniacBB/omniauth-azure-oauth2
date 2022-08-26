@@ -47,11 +47,16 @@ module OmniAuth
           options[:authorize_options].each do |k|
             params[k] = request.params[k.to_s] unless [nil, ''].include?(request.params[k.to_s])
           end
-
+          params[:response_mode] = 'form_post'
           params[:scope] = get_scope(params)
           params[:state] = request.params['state'] if defined?(request) && request.params['state']
           session['omniauth.state'] = params[:state] if params[:state]
         end
+      end
+
+      def token_params
+        binding.pry
+        super
       end
 
       uid {
