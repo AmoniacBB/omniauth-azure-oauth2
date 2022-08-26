@@ -5,9 +5,9 @@ module OmniAuth
   module Strategies
     class AzureOauth2 < OmniAuth::Strategies::OAuth2
       BASE_AZURE_URL = 'https://login.microsoftonline.com'
-      USER_INFO_URL = 'https://graph.microsoft.com/v1.0/me'
+      BASE_SCOPE_URL = 'https://graph.microsoft.com/'
       BASE_SCOPES = %w[profile email openid].freeze
-      DEFAULT_SCOPE = 'email profile'
+      DEFAULT_SCOPE = 'email,profile'
 
       option :name, 'azure_oauth2'
 
