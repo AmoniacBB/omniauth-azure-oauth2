@@ -55,8 +55,8 @@ module OmniAuth
       end
 
       def token_params
-        binding.pry
-        super
+        scope = request.env['omniauth.params'] && request.env['omniauth.params']['scope']
+        super.merge(scope: scope)
       end
 
       uid {
