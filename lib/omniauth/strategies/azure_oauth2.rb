@@ -27,13 +27,15 @@ module OmniAuth
         options.client_secret = provider.client_secret
         options.tenant_id =
           provider.respond_to?(:tenant_id) ? provider.tenant_id : 'common'
-        options.tenant_id = request.params['tenant_id'] if defined?(request) && request.params['tenant_id']
         options.base_azure_url =
           provider.respond_to?(:base_azure_url) ? provider.base_azure_url : BASE_AZURE_URL
 
         options.authorize_params = provider.authorize_params if provider.respond_to?(:authorize_params)
         options.authorize_params.domain_hint = provider.domain_hint if provider.respond_to?(:domain_hint) && provider.domain_hint
-        options.authorize_params.prompt = request.params['prompt'] if defined?(request) && request.params['prompt']
+        if defined?(request)
+          options.tenant_id = request.params['tenant_id'] if request.params['tenant_id']
+          options.authorize_params.prompt = request.params['prompt'] if request.params['prompt']
+        end
         options.client_options.authorize_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/v2.0/authorize"
         options.client_options.token_url = "#{options.base_azure_url}/#{options.tenant_id}/oauth2/v2.0/token"
         super
@@ -46,7 +48,7 @@ module OmniAuth
           end
 
           params[:scope] = get_scope(params)
-          params[:state] = request.params['state']if defined?(request) && request.params['state']
+          params[:state] = request.params['state'] if defined?(request) && request.params['state']
           session['omniauth.state'] = params[:state] if params[:state]
         end
       end
