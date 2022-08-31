@@ -55,8 +55,8 @@ module OmniAuth
       end
 
       def token_params
-        scope = request.env['omniauth.params'] && request.env['omniauth.params']['scope']
-        scope = get_scope({scope: scope})
+        params = {scope: options.scope} 
+        scope = get_scope(params)
         super.merge(scope: scope)
       end
 
