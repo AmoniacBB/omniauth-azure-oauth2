@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["mark@nadigs.net"]
   gem.description   = %q{An Windows Azure Active Directory OAuth2 strategy for OmniAuth}
   gem.summary       = %q{An Windows Azure Active Directory OAuth2 strategy for OmniAuth}
-  gem.homepage      = "https://github.com/KonaTeam/omniauth-azure-oauth2"
+  gem.homepage      = "https://github.com/AmoniacBB/omniauth-azure-oauth2"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
@@ -16,10 +16,11 @@ Gem::Specification.new do |gem|
   gem.version       = OmniAuth::AzureOauth2::VERSION
   gem.license       = "MIT"
 
-  gem.add_dependency 'omniauth', '~> 1.0'
+  gem.add_dependency "oauth2",     [">= 1.4", "< 3"]
+  gem.add_dependency "omniauth",   "~> 2.0"
   gem.add_dependency 'jwt', ['>= 1.0', '< 3.0']
 
-  gem.add_runtime_dependency 'omniauth-oauth2', '~> 1.4'
+  gem.add_runtime_dependency 'omniauth-oauth2', '~> 1.8'
 
   gem.add_development_dependency 'rspec', '>= 2.14.0'
   gem.add_development_dependency 'rake'
